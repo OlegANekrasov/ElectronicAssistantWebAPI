@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,8 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="BLL\Services\" />
+    <Folder Include="BLL\ViewModels\" />
     <Folder Include="DAL\Extentions\" />
-    <Folder Include="DAL\Models\" />
   </ItemGroup>
 
 </Project>
