@@ -1,6 +1,7 @@
 ﻿using ElectronicAssistantWebAPI.BLL.Models;
 using ElectronicAssistantWebAPI.DAL.Models;
 using ElectronicAssistantWebAPI.DAL.Repository;
+using Microsoft.VisualBasic.FileIO;
 
 namespace ElectronicAssistantWebAPI.BLL.Services
 {
@@ -39,6 +40,18 @@ namespace ElectronicAssistantWebAPI.BLL.Services
         public async Task DeleteAsync(DelRecommendedPrescription model)
         {
             await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).DeleteRoomAsync(model.Id);
+        }
+
+        public async Task PostFileAsync(IFormFile fileData)
+        {
+            try
+            {
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

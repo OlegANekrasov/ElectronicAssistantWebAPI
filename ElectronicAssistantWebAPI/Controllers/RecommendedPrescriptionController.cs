@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ElectronicAssistantWebAPI.BLL.Services;
+using ElectronicAssistantWebAPI.BLL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectronicAssistantWebAPI.Controllers
@@ -22,6 +23,24 @@ namespace ElectronicAssistantWebAPI.Controllers
         {
             var rooms = _recommendedPrescriptionService.Get();
             return new OkObjectResult(rooms);
+        }
+
+        [HttpPost("PostSingleFile")]
+        public async Task<ActionResult> PostSingleFile([FromForm] FileUploadViewModel file)
+        {
+            if (file == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _recommendedPrescriptionService.PostFileAsync(file.FileUpload);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

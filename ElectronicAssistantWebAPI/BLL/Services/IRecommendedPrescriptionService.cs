@@ -1,5 +1,6 @@
 ﻿using ElectronicAssistantWebAPI.BLL.Models;
 using ElectronicAssistantWebAPI.DAL.Models;
+using Microsoft.VisualBasic.FileIO;
 
 namespace ElectronicAssistantWebAPI.BLL.Services
 {
@@ -10,5 +11,6 @@ namespace ElectronicAssistantWebAPI.BLL.Services
         Task<RecommendedPrescription> AddAsync(AddRecommendedPrescription model);
         Task<RecommendedPrescription> UpdateAsync(UpdateRecommendedPrescription model);
         Task DeleteAsync(DelRecommendedPrescription model);
+        public Task PostFileAsync(IFormFile fileData);
     }
 }
