@@ -1,4 +1,5 @@
 using AutoMapper;
+using ElectronicAssistantWebAPI.BLL;
 using ElectronicAssistantWebAPI.BLL.Models;
 using ElectronicAssistantWebAPI.BLL.Services;
 using ElectronicAssistantWebAPI.DAL.EF;

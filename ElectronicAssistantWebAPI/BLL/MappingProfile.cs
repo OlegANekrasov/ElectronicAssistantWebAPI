@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace ElectronicAssistantWebAPI.BLL.Models
+namespace ElectronicAssistantWebAPI.BLL
 {
     public class MappingProfile : Profile
     {

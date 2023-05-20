@@ -25,7 +25,7 @@ namespace ElectronicAssistantWebAPI.BLL.Services
 
         public IEnumerable<RecommendedPrescription> Get()
         {
-            return ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).GetRooms();
+            return ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).GetRecommendedPrescriptions();
         }
 
         public async Task<RecommendedPrescription> GetByIdAsync(string id)
@@ -35,17 +35,17 @@ namespace ElectronicAssistantWebAPI.BLL.Services
 
         public async Task<RecommendedPrescription> AddAsync(AddRecommendedPrescription model)
         {
-            return await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).AddRoomAsync(model);
+            return await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).AddRecommendedPrescriptionAsync(model);
         }
 
         public async Task<RecommendedPrescription> UpdateAsync(UpdateRecommendedPrescription model)
         {
-            return await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).UpdateRoomAsync(model);
+            return await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).UpdateRecommendedPrescriptionAsync(model);
         }
 
         public async Task DeleteAsync(DelRecommendedPrescription model)
         {
-            await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).DeleteRoomAsync(model.Id);
+            await ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).DeleteRecommendedPrescriptionAsync(model.Id);
         }
 
         public async Task<string> PostFileAsync(IFormFile file)
@@ -78,12 +78,24 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                         sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook    
                     }
 
+                    var previousDiagnosis = "";
                     for (int row = 1; row <= sheet.LastRowNum; row++)
                     {
                         if (sheet.GetRow(row) != null) //null is when the row only contains empty cells
                         {
                             var addRecommendedPrescription = new AddRecommendedPrescription();
-                            addRecommendedPrescription.Diagnosis = sheet.GetRow(row).GetCell(0).StringCellValue;
+
+                            var diagnosis = sheet.GetRow(row).GetCell(0).StringCellValue;
+                            if(string.IsNullOrEmpty(diagnosis))
+                            {
+                                addRecommendedPrescription.Diagnosis = previousDiagnosis;
+                            }
+                            else
+                            {
+                                addRecommendedPrescription.Diagnosis = diagnosis;
+                                previousDiagnosis = diagnosis;
+                            }
+                            
                             addRecommendedPrescription.Prescription = sheet.GetRow(row).GetCell(1).StringCellValue;
 
                             await AddAsync(addRecommendedPrescription);

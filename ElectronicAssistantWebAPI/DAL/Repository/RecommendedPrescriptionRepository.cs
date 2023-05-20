@@ -11,7 +11,7 @@ namespace ElectronicAssistantWebAPI.DAL.Repository
 
         }
 
-        public IEnumerable<RecommendedPrescription> GetRooms()
+        public IEnumerable<RecommendedPrescription> GetRecommendedPrescriptions()
         {
             return base.Get();
         }
@@ -21,7 +21,7 @@ namespace ElectronicAssistantWebAPI.DAL.Repository
             return await Set.FindAsync(id);
         }
 
-        public async Task<RecommendedPrescription> AddRoomAsync(AddRecommendedPrescription model)
+        public async Task<RecommendedPrescription> AddRecommendedPrescriptionAsync(AddRecommendedPrescription model)
         {
             var recommendedPrescription = new RecommendedPrescription()
             {
@@ -34,7 +34,7 @@ namespace ElectronicAssistantWebAPI.DAL.Repository
             return recommendedPrescription;
         }
 
-        public async Task<RecommendedPrescription> UpdateRoomAsync(UpdateRecommendedPrescription model)
+        public async Task<RecommendedPrescription> UpdateRecommendedPrescriptionAsync(UpdateRecommendedPrescription model)
         {
             var recommendedPrescription = await GetByIdAsync(model.Id);
             if (recommendedPrescription != null)
@@ -49,7 +49,7 @@ namespace ElectronicAssistantWebAPI.DAL.Repository
             return null;
         }
 
-        public async Task DeleteRoomAsync(string id)
+        public async Task DeleteRecommendedPrescriptionAsync(string id)
         {
             await DeleteAsync(id);
         }
