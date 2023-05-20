@@ -11,6 +11,6 @@ namespace ElectronicAssistantWebAPI.BLL.Services
         Task<RecommendedPrescription> AddAsync(AddRecommendedPrescription model);
         Task<RecommendedPrescription> UpdateAsync(UpdateRecommendedPrescription model);
         Task DeleteAsync(DelRecommendedPrescription model);
-        public Task PostFileAsync(IFormFile fileData);
+        public Task<string> PostFileAsync(IFormFile fileData);
     }
 }

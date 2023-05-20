@@ -28,14 +28,14 @@ namespace ElectronicAssistantWebAPI.Controllers
         [HttpPost("PostSingleFile")]
         public async Task<ActionResult> PostSingleFile([FromForm] FileUploadViewModel file)
         {
-            if (file == null)
+            if (file.FileUpload == null)
             {
                 return BadRequest();
             }
             try
             {
-                await _recommendedPrescriptionService.PostFileAsync(file.FileUpload);
-                return Ok();
+                var result = await _recommendedPrescriptionService.PostFileAsync(file.FileUpload);
+                return Ok(result);
             }
             catch (Exception)
             {
