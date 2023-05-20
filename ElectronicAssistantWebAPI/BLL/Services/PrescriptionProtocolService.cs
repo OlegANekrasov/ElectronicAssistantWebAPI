@@ -44,16 +44,16 @@ namespace ElectronicAssistantWebAPI.BLL.Services
             await ((PrescriptionProtocolRepository)_prescriptionProtocolRepository).DeletePrescriptionProtocolAsync(model.Id);
         }
 
-        public async Task<string> PostFileAsync(IFormFile file)
+        public async Task<FileUploadResultModel> PostFileAsync(IFormFile file)
         {
             try
             {
                 if (file.Length == 0)
-                    return "File Not Selected";
+                    new FileUploadResultModel { NotError = false, Message = "File Not Selected" };
 
                 string fileExtension = Path.GetExtension(file.FileName);
                 if (fileExtension != ".xls" && fileExtension != ".xlsx")
-                    return "Invalid file format";
+                    new FileUploadResultModel { NotError = false, Message = "Invalid file format" };
 
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "FileDownloaded", file.FileName);
 
@@ -96,12 +96,12 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                         }
                     }
 
-                    return "File read successfully";
+                    return new FileUploadResultModel { NotError = true, Message = idFileUpload };
                 }
             }
             catch (Exception)
             {
-                throw;
+                return new FileUploadResultModel { NotError = false, Message = "File read error" };
             }
         }
     }

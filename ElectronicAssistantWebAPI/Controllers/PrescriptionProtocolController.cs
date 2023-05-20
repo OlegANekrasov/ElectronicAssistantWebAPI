@@ -7,21 +7,21 @@ namespace ElectronicAssistantWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RecommendedPrescriptionController : ControllerBase
+    public class PrescriptionProtocolController : ControllerBase
     {
-        private readonly IRecommendedPrescriptionService _recommendedPrescriptionService;
+        private readonly IPrescriptionProtocolService _prescriptionProtocolService;
         private readonly IMapper _mapper;
 
-        public RecommendedPrescriptionController(IRecommendedPrescriptionService recommendedPrescriptionService, IMapper mapper)
+        public PrescriptionProtocolController(IPrescriptionProtocolService prescriptionProtocolService, IMapper mapper)
         {
-            _recommendedPrescriptionService = recommendedPrescriptionService;
+            _prescriptionProtocolService = prescriptionProtocolService;
             _mapper = mapper;
         }
 
-        [HttpGet(Name = "GetRecommendedPrescriptions")]
+        [HttpGet(Name = "GetPrescriptionProtocols")]
         public IActionResult Get()
         {
-            var rooms = _recommendedPrescriptionService.Get();
+            var rooms = _prescriptionProtocolService.Get();
             return new OkObjectResult(rooms);
         }
 
@@ -35,8 +35,8 @@ namespace ElectronicAssistantWebAPI.Controllers
 
             try
             {
-                var result = await _recommendedPrescriptionService.PostFileAsync(file.FileUpload);
-                if(result.NotError)
+                var result = await _prescriptionProtocolService.PostFileAsync(file.FileUpload);
+                if (result.NotError)
                     return Ok(result.Message);
                 else
                     return BadRequest(result.Message);

@@ -10,6 +10,6 @@ namespace ElectronicAssistantWebAPI.BLL.Services
         Task<PrescriptionProtocol> AddAsync(AddPrescriptionProtocol model);
         Task<PrescriptionProtocol> UpdateAsync(UpdatePrescriptionProtocol model);
         Task DeleteAsync(DelPrescriptionProtocol model);
-        public Task<string> PostFileAsync(IFormFile fileData);
+        public Task<FileUploadResultModel> PostFileAsync(IFormFile fileData);
     }
 }
