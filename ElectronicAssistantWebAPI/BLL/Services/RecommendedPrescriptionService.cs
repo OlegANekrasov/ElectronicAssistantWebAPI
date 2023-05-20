@@ -110,6 +110,5 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                 throw;
             }
         }
-
     }
 }

@@ -3,7 +3,7 @@
     public class AddPrescriptionProtocol
     {
         public string IdFileUpload { get; set; }
-        public string LineNumberExcel { get; set; }
+        public int LineNumberExcel { get; set; }
         public string PatientGender { get; set; }
         public string PatientsDateOfBirth { get; set; }
         public string PatientID { get; set; }
