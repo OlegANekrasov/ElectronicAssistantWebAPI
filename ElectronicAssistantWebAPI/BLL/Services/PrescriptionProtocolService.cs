@@ -135,28 +135,32 @@ namespace ElectronicAssistantWebAPI.BLL.Services
 
             foreach (var pp in prescriptionProtocols)
             {
-                var protocolAnalysisResult = new ProtocolAnalysisResult()
+                var typeResult = ProtocolAnalysis(pp.Diagnosis, pp.Prescription);
+                if (typeResult != 0)
                 {
-                    LineNumberExcel = pp.LineNumberExcel,
-                    PatientGender = pp.PatientGender,
-                    PatientsDateOfBirth = pp.PatientsDateOfBirth,
-                    PatientID = pp.PatientID,
-                    MKB10 = pp.MKB10,
-                    Diagnosis = pp.Diagnosis,
-                    DateOfService = pp.DateOfService,
-                    Position = pp.Position,
-                    Prescription = pp.Prescription.Replace("/", "; "),
+                    var protocolAnalysisResult = new ProtocolAnalysisResult()
+                    {
+                        LineNumberExcel = pp.LineNumberExcel,
+                        PatientGender = pp.PatientGender,
+                        PatientsDateOfBirth = pp.PatientsDateOfBirth,
+                        PatientID = pp.PatientID,
+                        MKB10 = pp.MKB10,
+                        Diagnosis = pp.Diagnosis,
+                        DateOfService = pp.DateOfService,
+                        Position = pp.Position,
+                        Prescription = pp.Prescription.Replace("/", "; "),
 
-                    TypeResult = ProtocolAnalysis(pp.Diagnosis, pp.Prescription)
-                };
-                protocolAnalysisResultViewModel.ProtocolAnalysisResults.Add(protocolAnalysisResult);
+                        TypeResult = typeResult
+                    };
+                    protocolAnalysisResultViewModel.ProtocolAnalysisResults.Add(protocolAnalysisResult);
 
-                if (protocolAnalysisResult.TypeResult == 1)
-                    ++protocolAnalysisResultViewModel.Type1;
-                else if (protocolAnalysisResult.TypeResult == 2)
-                    ++protocolAnalysisResultViewModel.Type2;
-                else
-                    ++protocolAnalysisResultViewModel.Type3;
+                    if (typeResult == 1)
+                        ++protocolAnalysisResultViewModel.Type1;
+                    else if (typeResult == 2)
+                        ++protocolAnalysisResultViewModel.Type2;
+                    else
+                        ++protocolAnalysisResultViewModel.Type3;
+                }
             }
 
             return protocolAnalysisResultViewModel;
@@ -168,6 +172,11 @@ namespace ElectronicAssistantWebAPI.BLL.Services
             var recommendedPrescriptions = ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).GetRecommendedPrescriptions()
                                                                                                                   .Where(o => o.Diagnosis.Trim().ToLower() == diagnosis.Trim().ToLower())
                                                                                                                   .ToList();
+            if(!recommendedPrescriptions.Any())
+            {
+                return 0;
+            }
+            
             var fullCompliance = true;
             var additionalAppointments = false;
             foreach (var rp in recommendedPrescriptions)
