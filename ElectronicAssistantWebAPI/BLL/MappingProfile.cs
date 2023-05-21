@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ElectronicAssistantWebAPI.BLL.Models;
+using ElectronicAssistantWebAPI.DAL.Models;
 
 namespace ElectronicAssistantWebAPI.BLL
 {
@@ -6,9 +8,7 @@ namespace ElectronicAssistantWebAPI.BLL
     {
         public MappingProfile()
         {
-            //CreateMap<AddPositionViewModel, AddPosition>();
-            //CreateMap<DelPositionViewModel, DelPosition>();
-            //CreateMap<UpdatePositionViewModel, UpdatePosition>();
+            CreateMap<ProtocolAnalysisResult, PrescriptionProtocol>().ForMember(x => x.IdFileUpload, opt => opt.Ignore()); ;
         }
     }
 }

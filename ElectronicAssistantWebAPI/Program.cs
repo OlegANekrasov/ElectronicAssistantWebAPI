@@ -32,8 +32,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddUnitOfWork();
 builder.Services.AddCustomRepository<RecommendedPrescription, RecommendedPrescriptionRepository>();
+builder.Services.AddCustomRepository<PrescriptionProtocol, PrescriptionProtocolRepository>();
 
 builder.Services.AddScoped<IRecommendedPrescriptionService, RecommendedPrescriptionService>();
+builder.Services.AddScoped<IPrescriptionProtocolService, PrescriptionProtocolService>();
 
 var app = builder.Build();
 

@@ -21,11 +21,11 @@ namespace ElectronicAssistantWebAPI.Controllers
         [HttpGet(Name = "GetRecommendedPrescriptions")]
         public IActionResult Get()
         {
-            var rooms = _recommendedPrescriptionService.Get();
-            return new OkObjectResult(rooms);
+            var recommendedPrescriptions = _recommendedPrescriptionService.Get();
+            return new OkObjectResult(recommendedPrescriptions);
         }
 
-        [HttpPost("PostSingleFile")]
+        [HttpPost(Name = "PostSingleFile")]
         public async Task<ActionResult> PostSingleFile([FromForm] FileUploadViewModel file)
         {
             if (file.FileUpload == null)

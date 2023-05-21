@@ -2,11 +2,12 @@
 using ElectronicAssistantWebAPI.BLL.Services;
 using ElectronicAssistantWebAPI.BLL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.SS.Formula.Functions;
 
 namespace ElectronicAssistantWebAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PrescriptionProtocolController : ControllerBase
     {
         private readonly IPrescriptionProtocolService _prescriptionProtocolService;
@@ -21,11 +22,11 @@ namespace ElectronicAssistantWebAPI.Controllers
         [HttpGet(Name = "GetPrescriptionProtocols")]
         public IActionResult Get()
         {
-            var rooms = _prescriptionProtocolService.Get();
-            return new OkObjectResult(rooms);
+            var prescriptionProtocols = _prescriptionProtocolService.Get();
+            return new OkObjectResult(prescriptionProtocols);
         }
 
-        [HttpPost("PostSingleFile")]
+        [HttpPost]
         public async Task<ActionResult> PostSingleFile([FromForm] FileUploadViewModel file)
         {
             if (file.FileUpload == null)
@@ -46,5 +47,21 @@ namespace ElectronicAssistantWebAPI.Controllers
                 return BadRequest();
             }
         }
+        
+        [HttpGet(Name = "GetPositions")]
+        public IActionResult GetPositions()
+        {
+            var positions = _prescriptionProtocolService.GetPositions();
+            return new OkObjectResult(positions);
+        }
+
+        [HttpGet(Name = "GetProtocolAnalysis")]
+        public IActionResult GetProtocolAnalysis(string idFileUpload, string? position = "")
+        {
+            var result = _prescriptionProtocolService.GetProtocolAnalysis(idFileUpload, position);
+            return new OkObjectResult(result);
+        }
+
+
     }
 }
