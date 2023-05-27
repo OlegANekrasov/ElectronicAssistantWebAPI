@@ -207,5 +207,15 @@ namespace ElectronicAssistantWebAPI.BLL.Services
             else
                 return 3;
         }
+
+        public IEnumerable<string> GetIdFilesUpload()
+        {
+            var model = ((PrescriptionProtocolRepository)_prescriptionProtocolRepository).GetPrescriptionProtocols()
+                                                                                         .Select(o => o.IdFileUpload)
+                                                                                         .Distinct()
+                                                                                         .ToList();
+
+            return model;
+        }
     }
 }

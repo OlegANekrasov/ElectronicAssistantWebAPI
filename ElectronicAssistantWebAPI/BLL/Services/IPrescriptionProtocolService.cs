@@ -14,5 +14,6 @@ namespace ElectronicAssistantWebAPI.BLL.Services
         Task<FileUploadResultModel> PostFileAsync(IFormFile fileData); 
         IEnumerable<string> GetPositions();
         ProtocolAnalysisResultViewModel GetProtocolAnalysis(string IdFileUpload, string position);
+        IEnumerable<string> GetIdFilesUpload();
     }
 }

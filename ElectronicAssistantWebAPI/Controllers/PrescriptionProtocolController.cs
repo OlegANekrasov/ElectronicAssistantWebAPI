@@ -55,6 +55,13 @@ namespace ElectronicAssistantWebAPI.Controllers
             return new OkObjectResult(positions);
         }
 
+        [HttpGet(Name = "GetIdFilesUpload")]
+        public IActionResult GetIdFilesUpload()
+        {
+            var idFilesUpload = _prescriptionProtocolService.GetIdFilesUpload();
+            return new OkObjectResult(idFilesUpload);
+        }
+
         [HttpGet(Name = "GetProtocolAnalysis")]
         public IActionResult GetProtocolAnalysis(string idFileUpload, string? position = "")
         {
