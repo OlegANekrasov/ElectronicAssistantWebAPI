@@ -11,6 +11,7 @@
         public string DateOfService { get; set; }
         public string Position { get; set; }
         public string Prescription { get; set; }
+        public string RecPrescriptions { get; set; }
 
         public int TypeResult { get; set; }
     }

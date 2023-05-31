@@ -105,9 +105,9 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                     return new FileUploadResultModel { NotError = true, Message = "File read successfully" };
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new FileUploadResultModel { NotError = false, Message = "File read error" };
+                return new FileUploadResultModel { NotError = false, Message = "File read error: " + e.Message };
             }
         }
     }

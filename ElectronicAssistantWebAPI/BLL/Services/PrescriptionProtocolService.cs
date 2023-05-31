@@ -111,9 +111,9 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                     return new FileUploadResultModel { NotError = true, Message = idFileUpload };
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new FileUploadResultModel { NotError = false, Message = "File read error" };
+                return new FileUploadResultModel { NotError = false, Message = "File read error: " + e.Message};
             }
         }
 
@@ -135,7 +135,8 @@ namespace ElectronicAssistantWebAPI.BLL.Services
 
             foreach (var pp in prescriptionProtocols)
             {
-                var typeResult = ProtocolAnalysis(pp.Diagnosis, pp.Prescription);
+                var recPrescriptions = "";
+                var typeResult = ProtocolAnalysis(pp.Diagnosis, pp.Prescription, ref recPrescriptions);
                 if (typeResult != 0)
                 {
                     var protocolAnalysisResult = new ProtocolAnalysisResult()
@@ -149,6 +150,7 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                         DateOfService = pp.DateOfService,
                         Position = pp.Position,
                         Prescription = pp.Prescription.Replace("/", "; "),
+                        RecPrescriptions = recPrescriptions,
 
                         TypeResult = typeResult
                     };
@@ -166,7 +168,7 @@ namespace ElectronicAssistantWebAPI.BLL.Services
             return protocolAnalysisResultViewModel;
         }
 
-        private int ProtocolAnalysis(string diagnosis, string prescription)
+        private int ProtocolAnalysis(string diagnosis, string prescription, ref string recPrescriptions)
         {
             string[] strings = prescription.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var recommendedPrescriptions = ((RecommendedPrescriptionRepository)_recommendedPrescriptionRepository).GetRecommendedPrescriptions()
@@ -179,9 +181,20 @@ namespace ElectronicAssistantWebAPI.BLL.Services
             
             var fullCompliance = true;
             var additionalAppointments = false;
+            var first = true;
             foreach (var rp in recommendedPrescriptions)
             {
-                if(strings.FirstOrDefault(o => o.Trim().ToLower() == rp.Prescription.Trim().ToLower()) == null)
+                if(first)
+                {
+                    first = false;
+                    recPrescriptions += rp.Prescription;
+                }
+                else
+                {
+                    recPrescriptions += ("; " + rp.Prescription);
+                }
+                
+                if (strings.FirstOrDefault(o => o.Trim().ToLower() == rp.Prescription.Trim().ToLower()) == null)
                 {
                     fullCompliance = false;
                     break;
