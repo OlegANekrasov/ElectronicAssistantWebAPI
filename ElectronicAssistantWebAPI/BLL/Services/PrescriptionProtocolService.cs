@@ -64,9 +64,8 @@ namespace ElectronicAssistantWebAPI.BLL.Services
                 if (fileExtension != ".xls" && fileExtension != ".xlsx")
                     new FileUploadResultModel { NotError = false, Message = "Invalid file format" };
 
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "FileDownloaded", file.FileName);
-
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                using (var fileStream = new MemoryStream())
                 {
                     await file.CopyToAsync(fileStream);
 
